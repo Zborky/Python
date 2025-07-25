@@ -1,0 +1,20 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Storky</title>
+    <link rel="stylesheet" href="{% static 'css/stories.css' %}">
+</head>
+<body>
+    <h2>Storky posledných 24 hodín</h2>
+    {% for story in stories %}
+        <div class="story">
+            <img src="{{ story.image.url }}" alt="Storka">
+            <p>{{ story.user.username }}</p>
+        </div>
+    {% empty %}
+        <p>Žiadne storky za posledných 24 hodín.</p>
+    {% endfor %}
+</body>
+</html>

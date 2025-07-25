@@ -1,0 +1,22 @@
+body {
+    font-family: Roboto, sans-serif;
+    background-color: #f0f2f5;
+    padding: 2rem;
+}
+.story {
+    background: white;
+    padding: 1rem;
+    border-radius: 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+.story img {
+    max-width: 100%;
+    height: auto;
+    border-radius: 6px;
+}
+.story p {
+    margin-top: 0.5rem;
+    font-weight: bold;
+}

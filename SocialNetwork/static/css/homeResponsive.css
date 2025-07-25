@@ -1,0 +1,125 @@
+/* === Responsive styles for mobile (max-width: 768px) === */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .navbar .center {
+    justify-content: flex-start;
+    margin-top: 0.5rem;
+    width: 100%;
+  }
+
+  .navbar .right {
+    margin-top: 0.5rem;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-wrap: wrap;
+  }
+
+  .search-form {
+    width: 100%;
+    margin-top: 0.5rem;
+  }
+
+  .search-form input[type="text"] {
+    width: 100%;
+  }
+
+  .container {
+    margin: 1rem 0.5rem;
+    padding: 1rem;
+    border-radius: 0;
+  }
+
+  .story-strip {
+    gap: 10px;
+    padding: 0.8rem 0;
+  }
+
+  .story-item {
+    width: 60px;
+  }
+
+  .story-item img {
+    width: 50px;
+    height: 50px;
+  }
+
+  .post-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .post-content img {
+    max-height: 250px;
+  }
+
+  .post-actions {
+    flex-direction: column;
+  }
+
+  .comments form {
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .comments form input[type="text"] {
+    width: 100%;
+  }
+
+  .reply-form {
+    flex-direction: column;
+    gap: 8px;
+    margin-left: 1.5rem;
+  }
+
+  .reply {
+    margin-left: 1.5rem;
+  }
+
+  .recommended-posts {
+    gap: 10px;
+  }
+
+  .post-card {
+    min-width: 90%;
+    max-width: 100%;
+    padding: 12px;
+  }
+
+  .navbar .right a {
+    font-size: 0.9rem;
+    margin-left: 10px;
+  }
+
+  .comment-avatar {
+    width: 28px;
+    height: 28px;
+  }
+
+  .comment-body {
+    font-size: 0.9rem;
+    padding: 0.5rem 0.8rem;
+  }
+
+  .file-upload-label {
+    font-size: 0.85rem;
+    padding: 0.4rem 1rem;
+  }
+
+  .post-box textarea {
+    font-size: 0.95rem;
+  }
+
+  .like-button {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+
+  .section-title {
+    font-size: 1.2rem;
+  }
+}

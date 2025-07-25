@@ -1,0 +1,118 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 0;
+}
+
+.navbar {
+    background-color: #1877f2;
+    color: white;
+    padding: 1rem 2rem;
+    font-size: 1.2rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: normal;
+}
+
+.container {
+    max-width: 700px;
+    margin: 2rem auto;
+    background-color: white;
+    border-radius: 8px;
+    padding: 1rem;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.messages {
+    max-height: 400px;
+    overflow-y: auto;
+    margin-bottom: 1.5rem;
+    border: 1px solid #ccc;
+    padding: 1rem;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.message {
+    margin-bottom: 1rem;
+}
+
+.message.sent {
+    text-align: right;
+}
+
+.message p {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    border-radius: 16px;
+    max-width: 70%;
+    word-wrap: break-word;
+}
+
+.message.sent p {
+    background-color: #d2e3fc;
+}
+
+.message.received p {
+    background-color: #e4e6eb;
+}
+
+.message img {
+    max-width: 250px;
+    display: block;
+    margin-top: 0.5rem;
+    border-radius: 6px;
+}
+
+.message small {
+    display: block;
+    font-size: 0.75rem;
+    color: gray;
+    margin-top: 0.3rem;
+}
+
+form.chat-form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+form.chat-form textarea {
+    width: 100%;
+    padding: 0.8rem;
+    border: 1px solid #ccc;
+    border-radius: 20px;
+    resize: none;
+    font-size: 0.95rem;
+    min-height: 80px;
+}
+
+form.chat-form input[type="file"] {
+    border: none;
+    font-size: 0.9rem;
+}
+
+form.chat-form button {
+    align-self: flex-end;
+    background-color: #1877f2;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 20px;
+    cursor: pointer;
+    font-weight: bold;
+    transition: background-color 0.3s ease;
+}
+
+form.chat-form button:hover {
+    background-color: #155ec1;
+}

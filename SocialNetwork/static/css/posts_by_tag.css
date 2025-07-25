@@ -1,0 +1,84 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: white;
+    padding: 1.5rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+h2 {
+    color: #1877f2;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.post {
+    border-radius: 8px;
+    background-color: #ffffff;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    margin-bottom: 2rem;
+    overflow: hidden;
+}
+
+.post-header {
+    display: flex;
+    align-items: center;
+    padding: 1rem;
+    border-bottom: 1px solid #eee;
+}
+
+.post-header img {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    margin-right: 10px;
+}
+
+.post-content {
+    padding: 1rem;
+    font-size: 1rem;
+    color: #333;
+}
+
+.post-content img {
+    max-width: 100%;
+    border-radius: 8px;
+    margin-top: 1rem;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+video {
+    max-width: 100%;
+    margin-top: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.post-tags {
+    margin-top: 0.5rem;
+}
+
+.post-tags a {
+    color: #1877f2;
+    font-weight: bold;
+    margin-right: 8px;
+    text-decoration: none;
+}
+
+.post-tags a:hover {
+    text-decoration: underline;
+}
+
+.no-posts {
+    text-align: center;
+    font-size: 1.1rem;
+    color: #666;
+    margin-top: 2rem;
+}

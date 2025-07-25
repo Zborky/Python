@@ -1,0 +1,105 @@
+body {
+    margin: 0;
+    font-family: 'Roboto', sans-serif;
+    background-color: #f0f2f5;
+}
+
+.navbar {
+    background-color: #1877f2;
+    padding: 1rem 2rem;
+    color: white;
+    font-size: 1.4rem;
+    font-weight: bold;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.navbar a {
+    color: white;
+    text-decoration: none;
+}
+
+.container {
+    max-width: 600px;
+    margin: 2rem auto;
+    background-color: white;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+.profile-header {
+    text-align: center;
+    margin-bottom: 2rem;
+}
+
+.profile-header img {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.profile-header h2 {
+    margin: 0.5rem 0 0;
+}
+
+.follow-info {
+    margin-top: 1rem;
+    font-size: 0.95rem;
+    color: #555;
+}
+
+.follow-actions {
+    margin-top: 1rem;
+    text-align: center;
+}
+
+.follow-actions form {
+    display: inline;
+}
+
+.follow-actions button, .chat-button {
+    background-color: #1877f2;
+    color: white;
+    padding: 0.5rem 1rem;
+    margin: 0.3rem;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+}
+
+.profile-info {
+    margin-top: 1.5rem;
+}
+
+.posts {
+    margin-top: 2rem;
+}
+
+.post {
+    border-top: 1px solid #ddd;
+    padding-top: 1rem;
+    margin-top: 1.5rem;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 6px;
+}
+
+.post img {
+    display: block;
+    max-width: 100%;
+    max-height: 350px;
+    margin: 1rem auto 0 auto;
+    border-radius: 6px;
+    object-fit: cover;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+.post .date {
+    font-size: 0.9rem;
+    color: gray;
+    text-align: right;
+}
