@@ -1,0 +1,33 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Vyhľadávanie používateľov</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/searchresult.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+    Výsledky vyhľadávania
+</div>
+
+<div class="container">
+    <h2>Výsledky pre "{{ query }}"</h2>
+
+    {% if results %}
+        {% for user in results %}
+            <div class="user-item">
+                <a href="{% url 'public-profile' user.username %}">{{ user.username }}</a>
+                <a href="{% url 'private-chat' username=user.username %}">Napíš správu</a>
+
+            </div>
+        {% endfor %}
+    {% else %}
+        <p class="no-results">Nenašli sa žiadni používatelia.</p>
+    {% endif %}
+</div>
+
+</body>
+</html>

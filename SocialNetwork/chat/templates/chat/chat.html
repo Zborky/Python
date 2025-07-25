@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Chat s {{ other_user.username }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/chat.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+    <span>Chat s {{ other_user.username }}</span>
+    <a href="{% url 'home' %}">← Domov</a>
+</div>
+
+<div class="container">
+
+    <div class="messages">
+        {% for msg in messages %}
+            <div class="message {% if msg.sender == user %}sent{% else %}received{% endif %}">
+                <p>{{ msg.content }}</p>
+                {% if msg.image %}
+                    <img src="{{ msg.image.url }}" alt="obrázok správy">
+                {% endif %}
+                <small>{{ msg.timestamp|date:"d.m.Y H:i" }}</small>
+            </div>
+        {% endfor %}
+    </div>
+
+    <form method="POST" enctype="multipart/form-data" class="chat-form">
+        {% csrf_token %}
+        <textarea name="content" placeholder="Napíš správu..." required></textarea>
+        <input type="file" name="image">
+        <button type="submit">Odoslať</button>
+    </form>
+
+</div>
+
+</body>
+</html>

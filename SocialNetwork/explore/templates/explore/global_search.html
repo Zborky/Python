@@ -1,0 +1,123 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Výsledky vyhľadávania</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/globalsearch.css' %}">
+    
+</head>
+<body>
+
+<div class="navbar">
+    <form method="GET" action="{% url 'global_search' %}">
+        <div class="autocomplete-wrapper" style="position: relative;">
+            <input type="text" id="searchInput" name="q" placeholder="Hľadať..." autocomplete="off" required>
+            <ul id="suggestionsList" style="
+                list-style: none;
+                margin: 0;
+                padding: 0;
+                border: 1px solid #ccc;
+                max-height: 200px;
+                overflow-y: auto;
+                position: absolute;
+                background: white;
+                z-index: 1000;
+                width: 100%;
+            "></ul>
+        </div>
+        <button type="submit">Hľadaj</button>
+    </form>
+</div>
+
+<div class="container">
+    <h2>Výsledky pre: "{{ query }}"</h2>
+
+    <h3>👤 Používatelia</h3>
+    {% if user_results %}
+        <ul>
+            {% for user in user_results %}
+                <li><a href="{% url 'public-profile' username=user.username %}">{{ user.username }}</a></li>
+            {% endfor %}
+        </ul>
+    {% else %}
+        <p>Žiadni používatelia neboli nájdení.</p>
+    {% endif %}
+
+    <h3>📝 Príspevky</h3>
+    {% if post_results %}
+        {% for post in post_results %}
+            <div class="post">
+                <strong><a href="{% url 'public-profile' username=post.user.username %}">{{ post.user.username }}</a></strong>
+                <p>{{ post.content }}</p>
+
+                {% if post.tags.all %}
+                    <p>
+                        {% for tag in post.tags.all %}
+                            <a href="{% url 'global_search' %}?q=%23{{ tag.name }}">#{{ tag.name }}</a>{% if not forloop.last %}, {% endif %}
+                        {% endfor %}
+                    </p>
+                {% endif %}
+
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Obrázok príspevku">
+                {% endif %}
+            </div>
+        {% endfor %}
+    {% else %}
+        <p>Žiadne príspevky neboli nájdené.</p>
+    {% endif %}
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+    const input = document.getElementById('searchInput');
+    const suggestions = document.getElementById('suggestionsList');
+
+    input.addEventListener('input', function () {
+        const query = this.value;
+
+        if (query.length > 1) {
+            fetch(`/search/suggestions/?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    suggestions.innerHTML = '';
+
+                    data.users.forEach(user => {
+                        const li = document.createElement('li');
+                        li.textContent = `👤 ${user.username}`;
+                        li.style.padding = '6px 10px';
+                        li.style.cursor = 'pointer';
+                        li.onclick = () => {
+                            window.location.href = `/profile/${user.username}/`;
+                        };
+                        suggestions.appendChild(li);
+                    });
+
+                    data.posts.forEach(post => {
+                        const li = document.createElement('li');
+                        li.textContent = `📝 ${post.content.slice(0, 50)}...`;
+                        li.style.padding = '6px 10px';
+                        li.style.cursor = 'pointer';
+                        li.onclick = () => {
+                            window.location.href = `/profile/${post.username}/`;
+                        };
+                        suggestions.appendChild(li);
+                    });
+                });
+        } else {
+            suggestions.innerHTML = '';
+        }
+    });
+
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.autocomplete-wrapper')) {
+            suggestions.innerHTML = '';
+        }
+    });
+});
+</script>
+
+</body>
+</html>

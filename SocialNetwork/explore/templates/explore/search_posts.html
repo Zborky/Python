@@ -1,0 +1,41 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Vyhľadávanie príspevkov</title>
+    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    <link rel="stylesheet" href="{% static 'css/searchpost.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Vyhľadávanie príspevkov</h1>
+
+        <form method="get" action="{% url 'search_posts' %}">
+            <input type="text" name="q" placeholder="Zadaj kľúčové slovo..." value="{{ query|default_if_none:'' }}">
+            <button type="submit">Hľadať</button>
+        </form>
+
+        {% if query %}
+            <div class="results">
+                <h2>Výsledky pre: "{{ query }}"</h2>
+                {% if results %}
+                    {% for post in results %}
+                        <div class="post">
+                            <strong>{{ post.user.username }}</strong>: {{ post.content }}
+                            <br>
+                            <small>{{ post.created_at|date:"d.m.Y H:i" }}</small>
+                            {% if post.image %}
+                                <br>
+                                <img src="{{ post.image.url }}" alt="Obrázok príspevku">
+                            {% endif %}
+                        </div>
+                    {% endfor %}
+                {% else %}
+                    <p>⚠️ Žiadne výsledky neboli nájdené.</p>
+                {% endif %}
+            </div>
+        {% endif %}
+    </div>
+</body>
+</html>

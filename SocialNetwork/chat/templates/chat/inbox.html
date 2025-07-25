@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Inbox</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/inbox.css' %}">
+</head>
+<body>
+    <div class="navbar">
+        <a href="{% url 'home' %}" class="back-link">← Späť na hlavnú stránku</a>
+    </div>
+
+    <h2>📥 Inbox správ</h2>
+
+    {% for user, msg in conversations.items %}
+        <div class="conversation">
+            <a href="{% url 'private-chat' username=user.username %}">{{ user.username }}</a>
+            <p>{{ msg.content|truncatechars:100 }}</p>
+            <small>{{ msg.timestamp|date:"d.m.Y H:i" }}</small>
+        </div>
+    {% empty %}
+        <p class="no-messages">Nemáte žiadne konverzácie.</p>
+    {% endfor %}
+
+</body>
+</html>
