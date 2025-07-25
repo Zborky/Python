@@ -1,0 +1,74 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Profil - {{ profile_user.username }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/publicprofile.css' %}">
+</head>
+<body>
+
+<div class="navbar">
+    <a href="{% url 'home' %}">← Domov</a>
+    <span>Profil používateľa: {{ profile_user.username }}</span>
+</div>
+
+<div class="container">
+
+    <div class="profile-header">
+        <img src="{{ profile.image.url }}" alt="Profilový obrázok">
+        <h2>{{ profile_user.username }}</h2>
+
+        <div class="follow-info">
+            <p><strong>Sleduje:</strong> {{ following_count }} |
+                <strong>Sledujúci:</strong> {{ followers_count }}</p>
+        </div>
+
+        {% if user != profile_user %}
+        <div class="follow-actions">
+            {% if user in profile.followers.all %}
+                <form action="{% url 'unfollow' profile_user.username %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Odsledovať</button>
+                </form>
+            {% else %}
+                <form action="{% url 'follow' profile_user.username %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">Sledovať</button>
+                </form>
+            {% endif %}
+            <a href="{% url 'chat' username=profile_user.username %}" class="chat-button">Otvoriť chat</a>
+            <a href="{% url 'user-gallery' profile_user.username %}">🖼️ Zobraziť galériu</a>
+        </div>
+        {% endif %}
+    </div>
+
+    <div class="profile-info">
+        {% if profile.birth_date %}
+            <p><strong>Dátum narodenia:</strong> {{ profile.birth_date }}</p>
+        {% endif %}
+        {% if profile.bio %}
+            <p><strong>O mne:</strong> {{ profile.bio }}</p>
+        {% endif %}
+    </div>
+
+    <div class="posts">
+        <h3>Príspevky</h3>
+        {% for post in profile_user.post_set.all %}
+            <div class="post">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="obrázok príspevku">
+                {% endif %}
+                <p class="date">{{ post.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        {% empty %}
+            <p>Tento používateľ zatiaľ nepridal žiadne príspevky.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

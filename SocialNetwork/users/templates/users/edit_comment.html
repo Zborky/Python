@@ -1,0 +1,19 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Upraviť komentár</title>
+    <link rel="stylesheet" href="{% static 'css/editcomment.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Upraviť komentár</h2>
+        <form method="POST">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit">Uložiť zmeny</button>
+        </form>
+    </div>
+</body>
+</html>

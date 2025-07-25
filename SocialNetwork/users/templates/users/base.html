@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Social Network</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <style>
+        /* ... vlož CSS z home.html ... */
+    </style>
+</head>
+<body>
+
+{% if user.is_authenticated %}
+<div class="navbar">
+    <form method="GET" action="{% url 'global_search' %}" style="display:inline;">
+        <input type="text" name="q" placeholder="🔍 Hľadať používateľa alebo príspevok" required>
+        <button type="submit">Hľadaj</button>
+    </form>
+    <div class="left"></div>
+    <div class="right">
+        <a href="{% url 'inbox' %}">📨 Inbox</a>
+        <a href="{% url 'story-upload' %}">📸 Pridať storku</a>
+        <a href="{% url 'profile' %}">
+            <img src="{{ user.profile.image.url }}" alt="profil"> {{ user.username }}
+        </a>
+        <a href="{% url 'logout' %}">Odhlásiť sa</a>
+    </div>
+</div>
+{% endif %}
+
+<div class="story-strip">
+    {% if story_users %}
+        {% for user in story_users %}
+            <a href="{% url 'view-story' user.username %}" class="story-item">
+                <img src="{{ user.profile.image.url }}" alt="{{ user.username }}">
+                <span>{{ user.username }}</span>
+            </a>
+        {% endfor %}
+    {% endif %}
+</div>
+
+<!-- Tu sa vloží obsah zo šablón -->
+{% block content %}{% endblock %}
+
+</body>
+</html>

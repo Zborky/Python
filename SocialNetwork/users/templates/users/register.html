@@ -1,0 +1,23 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrácia</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/register.css' %}">
+</head>
+<body>
+
+<div class="register-container">
+    <h2>Registrácia</h2>
+    <form method="POST">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Registrovať</button>
+    </form>
+    <a href="{% url 'login' %}">Už máš účet? Prihlás sa</a>
+</div>
+
+</body>
+</html>

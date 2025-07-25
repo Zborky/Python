@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Potvrdiť zmazanie</title>
+    <link rel="stylesheet" href="{% static 'css/deletecomment.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>Chceš tento komentár naozaj zmazať?</h2>
+        <p>"{{ comment.text }}"</p>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="btn-group">
+                <button type="submit">Áno, zmazať</button>
+                <a href="{% url 'home' %}" class="cancel">Zrušiť</a>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

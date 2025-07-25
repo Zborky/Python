@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Galéria {{ gallery_user.username }}</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/gallery.css' %}">
+</head>
+<body>
+    <div class="container">
+        <h2>🖼️ Galéria používateľa {{ gallery_user.username }}</h2>
+    
+        {% if posts %}
+            <div class="gallery-grid">
+                {% for post in posts %}
+                    <a href="{{ post.image.url }}" target="_blank">
+                        <img src="{{ post.image.url }}" alt="obrázok">
+                    </a>
+                {% endfor %}
+            </div>
+        {% else %}
+            <p class="no-images">Používateľ zatiaľ nepridal žiadne obrázky.</p>
+        {% endif %}
+    </div>
+    </body>
+    </html>

@@ -1,0 +1,70 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Tvoj profil</title>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:400,700" rel="stylesheet">
+    <link rel="stylesheet" href="{% static 'css/profile.css' %}">
+</head>
+<body>
+
+<div class="container">
+
+    <a class="back-link" href="{% url 'home' %}">← Späť na domov</a>
+
+    <h2>Tvoj profil</h2>
+
+    {% if profile.image %}
+        <img src="{{ profile.image.url }}" alt="Profilový obrázok">
+    {% else %}
+        <p>Nemáš profilový obrázok.</p>
+    {% endif %}
+
+    <p><strong>Používateľ:</strong> {{ request.user.username }}</p>
+    <p><strong>Email:</strong> {{ request.user.email }}</p>
+    <a href="{% url 'password_change' %}">Zmeniť heslo</a>
+
+    <h3>Upraviť profil</h3>
+
+    <form method="POST" enctype="multipart/form-data">
+        {% csrf_token %}
+
+        {% if form.non_field_errors %}
+            <div class="form-errors">
+                {{ form.non_field_errors }}
+            </div>
+        {% endif %}
+
+        {% for field in form %}
+            <div class="form-group">
+                {{ field.label_tag }}
+                {{ field }}
+                {% if field.errors %}
+                    <div class="form-error">{{ field.errors }}</div>
+                {% endif %}
+            </div>
+        {% endfor %}
+
+        <button type="submit">Uložiť profil</button>
+    </form>
+
+    <div class="posts">
+        <h3>Tvoje príspevky</h3>
+        {% for post in request.user.post_set.all %}
+            <div class="post">
+                <p>{{ post.content }}</p>
+                {% if post.image %}
+                    <img src="{{ post.image.url }}" alt="Obrázok príspevku">
+                {% endif %}
+                <p class="date">{{ post.created_at|date:"d.m.Y H:i" }}</p>
+            </div>
+        {% empty %}
+            <p>Nemáš zatiaľ žiadne príspevky.</p>
+        {% endfor %}
+    </div>
+
+</div>
+
+</body>
+</html>

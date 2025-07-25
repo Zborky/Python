@@ -1,0 +1,24 @@
+<div class="comment" style="margin-left: {% if comment.parent %}30px{% else %}0{% endif %}; margin-top: 1rem;">
+    <p>
+        <strong>{{ comment.user.username }}</strong>: {{ comment.text }}
+        {% if comment.user == request.user %}
+            <span class="comment-actions">
+                <a href="{% url 'edit-comment' comment.pk %}" style="color: #007bff;">Upraviť</a> |
+                <a href="{% url 'delete-comment' comment.pk %}" style="color: red;">Zmazať</a>
+            </span>
+        {% endif %}
+    </p>
+
+    <!-- Formulár na odpoveď -->
+    <form method="POST" action="{% url 'add-comment' comment.post.id %}" class="comment-form">
+        {% csrf_token %}
+        <input type="hidden" name="parent_id" value="{{ comment.id }}">
+        <input type="text" name="text" placeholder="Odpovedať..." required>
+        <button type="submit">Odoslať</button>
+    </form>
+
+    <!-- Zobraz rekurzívne odpovede -->
+    {% for reply in comment.replies.all %}
+        {% include "partials/comment.html" with comment=reply %}
+    {% endfor %}
+</div>
