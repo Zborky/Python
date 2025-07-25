@@ -1,0 +1,27 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Pridať short</title>
+    <link rel="stylesheet" href="{% static 'css/uploadshort.css' %}">
+</head>
+<body>
+
+<div class="shorts-navbar">
+    <a href="{% url 'shorts_feed' %}">🎬 Naspäť na feed</a>
+    <span>➕ Pridať short</span>
+    <a href="{% url 'home' %}">🏠 Domov</a>
+</div>
+
+<div class="short-upload-container">
+    <h2>Pridať short video</h2>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Nahrať</button>
+    </form>
+</div>
+
+</body>
+</html>

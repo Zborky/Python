@@ -1,0 +1,143 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="sk">
+<head>
+    <meta charset="UTF-8">
+    <title>Shorts Feed</title>
+    <link rel="stylesheet" href="{% static 'css/shorts.css' %}?v=2">
+</head>
+<body>
+
+<div class="shorts-navbar">
+    <a href="{% url 'upload_short' %}">➕ Pridať short</a>
+    <span>🎬 Shorts Feed</span>
+    <a href="{% url 'home' %}">🏠 Domov</a>
+</div>
+
+<main>
+    {% for short in shorts %}
+        <div class="short-video" id="short-{{ short.id }}">
+            <div class="video-wrapper">
+                <video src="{{ short.video.url }}" autoplay loop muted playsinline></video>
+
+                <!-- ❤️ Lajk -->
+                <form method="POST"
+                      action="{% url 'like_short' short.id %}"
+                      class="like-form like-button-overlay"
+                      data-short-id="{{ short.id }}">
+                    {% csrf_token %}
+                    <button type="submit">
+                        ❤️ <span class="like-count">{{ short.total_likes }}</span>
+                    </button>
+                </form>
+
+                <!-- 💬 Komentárová bublina -->
+                <button class="comment-bubble" onclick="toggleComments({{ short.id }})">💬</button>
+            </div>
+
+            <!-- 📄 Caption -->
+            <p class="short-caption">{{ short.caption }}</p>
+
+            <!-- 💬 Skrytý komentárový panel -->
+            <div class="comments-panel" id="comments-panel-{{ short.id }}">
+                <div class="comments-header">
+                    <span>Komentáre</span>
+                    <button onclick="toggleComments({{ short.id }})" class="close-comments">✕</button>
+                </div>
+
+                <!-- 👇 Komentáre -->
+                <div class="short-comments" id="comments-list-{{ short.id }}">
+                    {% for comment in short.comments.all %}
+                        {% include "shorts/partials/comment.html" with comment=comment %}
+                    {% empty %}
+                        <p>Žiadne komentáre.</p>
+                    {% endfor %}
+                </div>
+
+                <!-- 📝 Formulár -->
+                <form method="POST"
+                      action="{% url 'add_short_comment' short.id %}"
+                      class="short-comment-form"
+                      data-short-id="{{ short.id }}">
+                    {% csrf_token %}
+                    <input type="text" name="text" placeholder="Napíš komentár..." required>
+                    <button type="submit" class="comment-submit-button">💬 Pridať</button>
+                </form>
+            </div>
+        </div>
+    {% empty %}
+        <p class="no-shorts">Zatiaľ žiadne short videá.</p>
+    {% endfor %}
+</main>
+
+<script>
+// AJAX pre lajk
+document.querySelectorAll('.like-form').forEach(form => {
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const shortId = form.dataset.shortId;
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+            }
+        });
+
+        const data = await response.json();
+
+        if (data.total_likes !== undefined) {
+            const countSpan = form.querySelector('.like-count');
+            countSpan.textContent = data.total_likes;
+
+            const btn = form.querySelector('button');
+            btn.innerHTML = (data.liked ? "❤️" : "🤍") + ` <span class="like-count">${data.total_likes}</span>`;
+        }
+    });
+});
+
+// AJAX pre komentár
+document.querySelectorAll('.short-comment-form').forEach(form => {
+    form.addEventListener('submit', async function (e) {
+        e.preventDefault();
+
+        const shortId = form.dataset.shortId;
+        const csrfToken = form.querySelector('[name=csrfmiddlewaretoken]').value;
+        const textInput = form.querySelector('input[name="text"]');
+        const text = textInput.value;
+
+        const response = await fetch(form.action, {
+            method: 'POST',
+            headers: {
+                'X-CSRFToken': csrfToken,
+                'X-Requested-With': 'XMLHttpRequest',
+                'Content-Type': 'application/x-www-form-urlencoded'
+            },
+            body: new URLSearchParams({ text: text })
+        });
+
+        const data = await response.json();
+
+        if (data.success && data.comment_html) {
+            const commentsDiv = document.getElementById(`comments-list-${shortId}`);
+            commentsDiv.insertAdjacentHTML('beforeend', data.comment_html);
+            textInput.value = '';
+            commentsDiv.scrollTop = commentsDiv.scrollHeight;
+        } else {
+            alert(data.error || "Chyba pri odoslaní komentára.");
+        }
+    });
+});
+
+// 💬 Zobrazenie/skrytie komentárového panela
+function toggleComments(shortId) {
+    const panel = document.getElementById(`comments-panel-${shortId}`);
+    panel.classList.toggle('active');
+}
+</script>
+
+</body>
+</html>
